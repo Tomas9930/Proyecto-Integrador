@@ -269,3 +269,57 @@ form .form-control {
     padding-top: 40px;
     height: 10vh;
 }
+
+.filtro {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.filtro label {
+    font-size: 1.2em;
+    margin-right: 10px;
+    color: #333;
+}
+
+.filtro select {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.filtro select:hover {
+    border-color: #888;
+}
+
+.filtro select:focus {
+    outline: none;
+    border-color: #555;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+.fade-out {
+    opacity: 1;
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+

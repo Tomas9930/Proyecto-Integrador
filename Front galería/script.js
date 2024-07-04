@@ -71,3 +71,81 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay.style.visibility = "hidden";
     }
 })
+
+document.addEventListener('DOMContentLoaded', function() {
+    const filtroAutor = document.getElementById('filtro-autor');
+    const imagenes = document.querySelectorAll('.galeria img');
+
+    filtroAutor.addEventListener('change', function() {
+        const autorSeleccionado = filtroAutor.value;
+
+        imagenes.forEach(img => {
+            if (autorSeleccionado === 'todos' || img.dataset.autor === autorSeleccionado) {
+                img.style.display = 'block';
+                img.classList.add('fade-in');
+                img.classList.remove('fade-out');
+            } else {
+                img.classList.add('fade-out');
+                img.classList.remove('fade-in');
+                setTimeout(() => {
+                    img.style.display = 'none';
+                }, 300); // Duración de la animación
+            }
+        });
+    });
+});
+
+// funciones backend
+document.addEventListener('DOMContentLoaded', function() {
+    //loadImages();
+
+    document.getElementById('addImageForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        addImage();
+    });
+});
+
+function loadImages() {
+    fetch('leer.php')
+        .then(response => response.json())
+        .then(data => {
+            const galeria = document.getElementById('galeria');
+            galeria.innerHTML = 'galeria';
+            data.forEach(image => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <img src="${image.src}" alt="${image.alt}">
+                    <p>${image.alt}</p>
+                    <p>Autor: ${image.author}</p>
+                    <button onclick="deleteImage(${image.id})">Eliminar</button>
+                `;
+                galeriaa.appendChild(div);
+            });
+        });
+}
+function addImage() {
+    const formData = new FormData(document.getElementById('addImageForm'));
+    console.log (formData);
+    fetch('crear.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        if (response.ok) {
+            loadImages();
+            document.getElementById('addImageForm').reset();
+        }
+    });
+}
+
+function deleteImage(id) {
+    const formData = new FormData();
+    formData.append('id', id);
+    fetch('eliminar.php', {
+        method: 'POST',
+        body: formData
+    }).then(response => {
+        if (response.ok) {
+            loadImages();
+        }
+    });
+}
